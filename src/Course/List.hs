@@ -170,7 +170,7 @@ filter f =
   -> List a
   -> List a
 (++) =
-  flip foldRight (:.)
+  flip (foldRight (:.))
 
 infixr 5 ++
 
@@ -204,8 +204,10 @@ flatMap ::
   (a -> List b)
   -> List a
   -> List b
-flatMap =
-  error "todo: Course.List#flatMap"
+flatMap f =
+--  flatten (foldRight g Nil xs)
+--      where g a b = f a :. b
+  flatten . map f
 
 -- | Flatten a list of lists to a list (again).
 -- HOWEVER, this time use the /flatMap/ function that you just wrote.
@@ -215,11 +217,11 @@ flattenAgain ::
   List (List a)
   -> List a
 flattenAgain =
-  error "todo: Course.List#flattenAgain"
+  flatMap id
 
 -- | Convert a list of optional values to an optional list of values.
 --
--- * If the list contains all `Full` values, 
+-- * If the list contains all `Full` values,
 -- then return `Full` list of values.
 --
 -- * If the list contains one or more `Empty` values,
@@ -242,8 +244,17 @@ flattenAgain =
 seqOptional ::
   List (Optional a)
   -> Optional (List a)
-seqOptional =
-  error "todo: Course.List#seqOptional"
+--seqOptional =
+--  foldRight (twiceOptional (:.)) (Full Nil)
+seqOptional xs =
+  if length (catOptional xs) == length xs then
+    Full (catOptional xs)
+  else
+    Empty
+    where
+      catOptional Nil = Nil
+      catOptional (Full a:.l) = a:.catOptional l
+      catOptional (Empty:.l) = catOptional l
 
 -- | Find the first element in the list matching the predicate.
 --
@@ -265,8 +276,10 @@ find ::
   (a -> Bool)
   -> List a
   -> Optional a
-find =
-  error "todo: Course.List#find"
+find f xs =
+  case filter f xs of
+      Nil -> Empty
+      x:._ -> Full x
 
 -- | Determine if the length of the given list is greater than 4.
 --
