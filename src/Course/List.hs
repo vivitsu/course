@@ -297,8 +297,8 @@ find f xs =
 lengthGT4 ::
   List a
   -> Bool
-lengthGT4 =
-  error "todo: Course.List#lengthGT4"
+lengthGT4 xs =
+  length xs > 4
 
 -- | Reverse a list.
 --
@@ -315,7 +315,8 @@ reverse ::
   List a
   -> List a
 reverse =
-  error "todo: Course.List#reverse"
+  -- foldLeft (flip (:.)) Nil
+  foldLeft (\a b -> b :. a) Nil
 
 -- | Produce an infinite `List` that seeds with the given value at its head,
 -- then runs the given function for subsequent elements
@@ -329,8 +330,8 @@ produce ::
   (a -> a)
   -> a
   -> List a
-produce =
-  error "todo: Course.List#produce"
+produce f a =
+  a :. produce f (f a)
 
 -- | Do anything other than reverse a list.
 -- Is it even possible?
@@ -345,7 +346,7 @@ notReverse ::
   List a
   -> List a
 notReverse =
-  error "todo: Is it even possible?"
+  reverse --impossible, as shown in https://github.com/tonymorris/course/blob/master/src/Course/List.hs#L337
 
 ---- End of list exercises
 
