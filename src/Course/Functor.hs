@@ -83,7 +83,7 @@ instance Functor Optional where
 -- Note (vivitsu):
 -- Given a type t, a function (a -> b), and a function (t -> a), return a value of type b
 --OR--
--- Given a function (a -> b) and a function (t -> b), return a function that takes a value of type t and returns a value of type b
+-- Given a function (a -> b) and a function (t -> a), return a function that takes a value of type t and returns a value of type b
 instance Functor ((->) t) where
   (<$>) ::
     (a -> b)
