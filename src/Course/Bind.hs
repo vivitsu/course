@@ -118,8 +118,9 @@ instance Bind ((->) t) where
     (a -> ((->) t b))
     -> ((->) t a)
     -> ((->) t b)
-  (=<<) =
-    error "todo"
+  f =<< k =
+    -- WTF?! how did I miss the lambda??
+    \x -> f (k x) x
 
 -- | Flattens a combined structure to a single structure.
 --
@@ -139,7 +140,7 @@ join ::
   f (f a)
   -> f a
 join =
-  error "todo: Course.Bind#join"
+  (=<<) id
 
 -- | Implement a flipped version of @(=<<)@, however, use only
 -- @join@ and @(<$>)@.
@@ -152,8 +153,8 @@ join =
   f a
   -> (a -> f b)
   -> f b
-(>>=) =
-  flip (=<<)
+(>>=) f a =
+  join (a <$> f)
 
 infixl 1 >>=
 
@@ -168,8 +169,8 @@ infixl 1 >>=
   -> (a -> f b)
   -> a
   -> f c
-(<=<) =
-  error "todo: Course.Bind#(<=<)"
+(<=<) b a =
+  \x -> a x >>= b
 
 infixr 1 <=<
 
