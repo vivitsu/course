@@ -68,8 +68,8 @@ infixr 1 =<<
   f (a -> b)
   -> f a
   -> f b
-(<*>) =
-  error "todo: Course.Bind#(<*>)"
+(<*>) f a =
+  (<$> a) =<< f
 
 infixl 4 <*>
 
@@ -82,8 +82,8 @@ instance Bind Id where
     (a -> Id b)
     -> Id a
     -> Id b
-  (=<<) =
-    error "todo: Course.Bind (=<<)#instance Id"
+  f =<< Id a =
+    f a
 
 -- | Binds a function on a List.
 --
@@ -95,7 +95,7 @@ instance Bind List where
     -> List a
     -> List b
   (=<<) =
-    error "todo: Course.Bind (=<<)#instance List"
+    flatMap
 
 -- | Binds a function on an Optional.
 --
@@ -107,7 +107,7 @@ instance Bind Optional where
     -> Optional a
     -> Optional b
   (=<<) =
-    error "todo: Course.Bind (=<<)#instance Optional"
+    bindOptional
 
 -- | Binds a function on the reader ((->) t).
 --
