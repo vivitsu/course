@@ -119,7 +119,7 @@ instance Bind ((->) t) where
     -> ((->) t a)
     -> ((->) t b)
   (=<<) =
-    error "todo: Course.Bind (=<<)#instance ((->) t)"
+    error "todo"
 
 -- | Flattens a combined structure to a single structure.
 --
