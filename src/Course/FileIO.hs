@@ -63,7 +63,10 @@ the contents of c
 main ::
   IO ()
 main =
-  getArgs >>= (run . unlines)
+  getArgs >>= \args ->
+    case args of
+      filename :. Nil -> run filename
+      _ -> putStrLn "usage: runhaskell io.hs filename"
 
 type FilePath =
   Chars
@@ -99,4 +102,4 @@ printFile ::
   -> Chars
   -> IO ()
 printFile fp cs =
-  putStrLn cs
+  putStrLn ("============ " ++ fp ++ "\n" ++ cs)
