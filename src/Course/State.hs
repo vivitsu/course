@@ -42,7 +42,7 @@ instance Functor (State s) where
     -> State s a
     -> State s b
   (<$>) =
-      error "todo: Course.State#(<$>)"
+       error "todo"
 
 -- | Implement the `Apply` instance for `State s`.
 -- >>> runState (pure (+1) <*> pure 0) 0
